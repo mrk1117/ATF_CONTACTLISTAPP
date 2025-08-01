@@ -417,4 +417,9 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
+.classpath
+.project
+.settings/
 target/
+*/target/*
+*/target/**
