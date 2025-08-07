@@ -16,7 +16,7 @@ public class DriverFactory {
                         "--disable-gpu",
                         "--disable-extensions",
                         "--remote-allow-origins=*",
-                        "--guest"
+                        "--incognito"
                 );
 
                 System.out.println("WebDriver created using DriverFactory with browser: " + browser);
