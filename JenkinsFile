@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         jdk 'jdk-17-temurin'       
-        maven 'Maven 3.9'          // Ditto here
+        maven 'Maven 3.9'          
     }
 
     environment {
