@@ -32,7 +32,7 @@ public class BaseTest {
 //                driver = new ChromeDriver();
 //                break;
 //        }
-//        driver.get(ConfigReader.get("base_url"));
+//        driver.get(ConfigReader.get("base_url")); /
         driver = DriverFactory.createDriver("chrome");
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
