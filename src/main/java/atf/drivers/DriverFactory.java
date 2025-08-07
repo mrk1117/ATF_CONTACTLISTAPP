@@ -17,10 +17,18 @@ public class DriverFactory {
                 // Chrome uses that folder as its profile, so no clashes.
                 // Tests can run in parallel or sequentially without profile fights.
                 ChromeOptions options = new ChromeOptions();
+                options.addArguments(
+                        "--headless=new",
+                        "--no-sandbox",
+                        "--disable-dev-shm-usage",
+                        "--disable-gpu",
+                        "--disable-extensions",
+                        "--remote-allow-origins=*");
 
                 try {
                     // Create temp user data directory
-                    Path userDataDir = Files.createTempDirectory("chrome-profile-");
+                    // Path userDataDir = Files.createTempDirectory("chrome-profile-");
+                    Path userDataDir = Files.createTempDirectory(Path.of("/tmp"), "chrome-profile-");
                     options.addArguments("--user-data-dir=" + userDataDir.toAbsolutePath());
 
                     // Register shutdown hook to clean up the temp directory
@@ -37,7 +45,7 @@ public class DriverFactory {
                     System.err.println("Failed to create temp Chrome user data directory.");
                     e.printStackTrace();
                 }
-
+                System.out.println("🔧 WebDriver created using DriverFactory with browser: " + browser);
                 return new ChromeDriver(options);
 
             default:
@@ -45,9 +53,11 @@ public class DriverFactory {
         }
     }
 
-    // The addShutdownHook ensures cleanup runs when the JVM exits (which Jenkins will do at the end of the build).
+    // The addShutdownHook ensures cleanup runs when the JVM exits (which Jenkins
+    // will do at the end of the build).
     // Works even if the test fails midway — it’s cleanup insurance.
-    // This prevents temp folders from filling your container’s disk space over time.
+    // This prevents temp folders from filling your container’s disk space over
+    // time.
     private static void deleteDirectoryRecursively(java.io.File file) throws IOException {
         if (file.isDirectory()) {
             for (java.io.File child : file.listFiles()) {
