@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'Maven 3.5.3'    
+        jdk 'jdk-17-temurin'         
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/mrk1117/ATF_CONTACTLISTAPP.git', branch: 'main'
+            }
+        }
+
+        stage('Build & Test') {
+            steps {
+                sh 'mvn clean test'
+            }
+        }
+
+        stage('Publish Test Results') {
+            steps {
+                junit '**/target/surefire-reports/*.xml'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Build and tests passed! 🎉"
+        }
+        always {
+            archiveArtifacts artifacts: '**/target/*.log', allowEmptyArchive: true
+        }
+        failure {
+            mail to: 'mrk1117@protonmail.com',
+                 subject: "FAILED: Jenkins Job - ${env.JOB_NAME} [#${env.BUILD_NUMBER}]",
+                 body: "Check Jenkins for details: ${env.BUILD_URL}"
+        }
+    }
+}
