@@ -18,7 +18,6 @@ public class DriverFactory {
                         "--remote-allow-origins=*",
                         "--incognito"
                 );
-
                 System.out.println("WebDriver created using DriverFactory with browser: " + browser);
                 return new ChromeDriver(options);
 
