@@ -4,7 +4,7 @@ pipeline {
     tools {
         jdk 'jdk-17-temurin'       
         maven 'Maven 3.9' 
-        git 'Git 2.39.5'        
+        git 'Default'        
     }
 
     environment {
